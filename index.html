@@ -17,8 +17,6 @@
     --cream:    #f2e8d5;
     --cream-dim:#c9b99a;
     --red:      #7a2020;
-    --parchment:#e8dcc4;
-    --shadow:   rgba(0,0,0,0.6);
   }
 
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -35,7 +33,6 @@
     overflow-x: hidden;
   }
 
-  /* === STONE TEXTURE OVERLAY === */
   body::before {
     content: '';
     position: fixed;
@@ -48,7 +45,6 @@
     z-index: 0;
   }
 
-  /* === DECORATIVE TOP ARCH === */
   .arch-header {
     width: 100%;
     max-width: 760px;
@@ -106,7 +102,6 @@
     margin-top: 4px;
   }
 
-  /* === MAIN CHAT CONTAINER === */
   .chat-wrap {
     width: 100%;
     max-width: 760px;
@@ -118,7 +113,6 @@
     flex-direction: column;
   }
 
-  /* === QUICK SUGGESTIONS === */
   .suggestions {
     display: flex;
     flex-wrap: wrap;
@@ -146,7 +140,6 @@
     color: var(--gold-lt);
   }
 
-  /* === MESSAGES AREA === */
   .messages {
     flex: 1;
     overflow-y: auto;
@@ -166,7 +159,6 @@
     border-radius: 2px;
   }
 
-  /* === WELCOME MESSAGE === */
   .welcome-msg {
     display: flex;
     gap: 14px;
@@ -199,11 +191,9 @@
 
   .msg-bubble p { margin-bottom: 6px; }
   .msg-bubble p:last-child { margin-bottom: 0; }
-
-  .msg-bubble strong {
-    color: var(--gold-lt);
-    font-weight: 600;
-  }
+  .msg-bubble strong { color: var(--gold-lt); font-weight: 600; }
+  .msg-bubble ul { margin: 8px 0 4px 18px; }
+  .msg-bubble li { margin-bottom: 3px; line-height: 1.6; }
 
   .bot-name {
     font-family: 'Cinzel', serif;
@@ -214,7 +204,6 @@
     text-transform: uppercase;
   }
 
-  /* === USER MESSAGE === */
   .user-row {
     display: flex;
     justify-content: flex-end;
@@ -231,7 +220,6 @@
     color: var(--cream);
   }
 
-  /* === BOT RESPONSE ROW === */
   .bot-row {
     display: flex;
     gap: 14px;
@@ -239,7 +227,6 @@
     animation: fadeSlide 0.4s ease;
   }
 
-  /* === TYPING INDICATOR === */
   .typing-row {
     display: flex;
     gap: 14px;
@@ -267,7 +254,6 @@
   .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
   .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
 
-  /* === INPUT AREA === */
   .input-section {
     padding: 20px 0 30px;
     position: sticky;
@@ -302,15 +288,10 @@
     max-height: 130px;
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
-    backdrop-filter: blur(4px);
     line-height: 1.5;
   }
 
-  #user-input::placeholder {
-    color: rgba(201,184,154,0.4);
-    font-style: italic;
-  }
-
+  #user-input::placeholder { color: rgba(201,184,154,0.4); font-style: italic; }
   #user-input:focus {
     border-color: rgba(201,168,76,0.6);
     box-shadow: 0 0 16px rgba(201,168,76,0.1);
@@ -320,8 +301,7 @@
     background: linear-gradient(135deg, var(--gold-dim), #6b5220);
     border: 1px solid var(--gold-dim);
     color: var(--cream);
-    width: 50px;
-    height: 50px;
+    width: 50px; height: 50px;
     border-radius: 4px;
     cursor: pointer;
     font-size: 20px;
@@ -338,12 +318,8 @@
     transform: translateY(-1px);
   }
 
-  #send-btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
+  #send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-  /* === BOTTOM META === */
   .bottom-meta {
     text-align: center;
     font-size: 11px;
@@ -354,7 +330,6 @@
     font-family: 'Crimson Pro', serif;
   }
 
-  /* === ANIMATIONS === */
   @keyframes fadeSlide {
     from { opacity: 0; transform: translateY(10px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -365,21 +340,6 @@
     40%           { transform: scale(1);   opacity: 1; }
   }
 
-  /* === FORMATTED RESPONSE === */
-  .msg-bubble ul {
-    margin: 8px 0 4px 18px;
-    color: var(--cream);
-  }
-  .msg-bubble li { margin-bottom: 3px; line-height: 1.6; }
-
-  /* === ERROR STATE === */
-  .error-bubble {
-    background: rgba(122,32,32,0.3);
-    border-color: rgba(122,32,32,0.5);
-    color: #e8b0b0;
-  }
-
-  /* mobile */
   @media (max-width: 520px) {
     .arch-header { padding: 24px 16px 0; }
     .msg-bubble { max-width: 95%; }
@@ -390,7 +350,6 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="arch-header">
   <div class="arch-ornament">
     <div class="arch-line"></div>
@@ -408,10 +367,7 @@
   </div>
 </div>
 
-<!-- CHAT WRAPPER -->
 <div class="chat-wrap">
-
-  <!-- QUICK SUGGESTIONS -->
   <div class="suggestions" id="suggestions">
     <button class="suggestion-btn" onclick="sendSuggestion('Kalenin tarihi nedir?')">📜 Kalenin tarihi</button>
     <button class="suggestion-btn" onclick="sendSuggestion('Abdurrahman Gazi efsanesini anlat')">⚔️ Fetih efsanesi</button>
@@ -420,15 +376,13 @@
     <button class="suggestion-btn" onclick="sendSuggestion('Kale mimarisi nasıl?')">🧱 Mimari</button>
   </div>
 
-  <!-- MESSAGES -->
   <div class="messages" id="messages">
-    <!-- Welcome message -->
     <div class="welcome-msg">
       <div class="avatar">🏹</div>
       <div>
         <div class="bot-name">AYDOS — Dijital Rehber</div>
         <div class="msg-bubble">
-          <p>Hoş geldiniz. Ben <strong>Aydos Kalesi'nin dijital rehberi</strong>yim.</p>
+          <p>Hoş geldiniz! Ben <strong>Aydos Kalesi'nin dijital rehberi</strong>yim.</p>
           <p>İstanbul'un en yüksek noktasında, 325 metre rakımda yükselen bu Bizans kalesinin tarihi, efsaneleri, arkeolojik bulguları ve ziyaret bilgileri hakkında sorularınızı yanıtlayabilirim.</p>
           <p>Ne merak ediyorsunuz? 🏹</p>
         </div>
@@ -436,7 +390,6 @@
     </div>
   </div>
 
-  <!-- INPUT AREA -->
   <div class="input-section">
     <div class="input-divider"></div>
     <div class="input-row">
@@ -455,117 +408,224 @@
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════
-// SYSTEM PROMPT — tüm PDF içeriği burada
-// ═══════════════════════════════════════════════════
-const SYSTEM_PROMPT = `Sen "Aydos" adlı, İstanbul'un tarihi Aydos Kalesi'nin resmi dijital rehberisin. 
-Turistlere ve ziyaretçilere bilgi veriyorsun. Sıcak, bilgili ve coşkulu bir rehber gibi konuşursun.
-Yanıtlarını Türkçe ver; kullanıcı başka dilde yazarsa o dile geç.
-Kısa ve akıcı yanıtlar ver (3-5 cümle, gerekirse madde listesi). Her yanıtın sonunda ilgili bir konuya yönlendiren kısa bir soru sor.
+// ════════════════════════════════════════════════════════
+// BİLGİ TABANI — PDF'lerden derlenen tüm içerik
+// ════════════════════════════════════════════════════════
+const KB = [
+  {
+    keys: ['tarih','ne zaman','hangi dönem','bizans','kuruluş','kuruldu','inşa','yapıldı','yapıl','geçmiş','kronoloji','osmanlı tarihi','historia'],
+    title: '📜 Kalenin Tarihi',
+    answer: `Aydos Kalesi, <strong>Bizans İmparatorluğu döneminde 11. ve 12. yüzyıllarda</strong> inşa edilmiş bir savunma yapısıdır. Komnenos Hanedanı döneminde (1081–1185), 1071 Malazgirt Savaşı'nın ardından Anadolu'yu kaybeden Bizans, savunma hattını Marmara kıyılarına çekerek bu kaleyi inşa etmiştir.<br><br>
+Tarihsel kronoloji:<br>
+<ul>
+<li><strong>Tunç Çağı (M.Ö. 3000–1200):</strong> Tepede taş aletler ve kültür varlıkları bulundu; sığınak veya gözetleme noktası olarak kullanılmış.</li>
+<li><strong>11–12. yy:</strong> Mevcut kalenin inşası; Konstantinopolis'i korumak amacıyla.</li>
+<li><strong>13–14. yy:</strong> Onarımlar ve kaset duvar tekniğiyle güçlendirme. Osmanlı tehdidinin zirve dönemi.</li>
+<li><strong>1328:</strong> Orhan Gazi döneminde Abdurrahman Gazi tarafından fethedildi.</li>
+<li><strong>1453 sonrası:</strong> İstanbul'un fethiyle sınır kalesi özelliğini yitirdi, terk edildi.</li>
+<li><strong>2010–2022:</strong> Kapsamlı arkeolojik kazı ve restorasyon; turizme açıldı.</li>
+</ul>`,
+    followup: 'Fetih efsanesini de merak ediyor musunuz? ⚔️'
+  },
+  {
+    keys: ['efsane','hikaye','hikâye','tekfur','kız','abdurrahman','gazi','fetih','fethedil','saç','halat','urgan','rüya','aşk','roman','rapunzel','mektup'],
+    title: '⚔️ Fetih Efsanesi',
+    answer: `Aydos Kalesi'nin 1328'deki fethi, Osmanlı kroniklerine <strong>"Tekfur'un Kızı ve Abdurrahman Gazi"</strong> efsanesiyle geçmiştir:<br><br>
+<ul>
+<li>Aydos tekfurunun (Bizans valisinin) kızı, rüyasında bir çukura düştüğünü; nur yüzlü bir kahramanın onu kurtardığını görür.</li>
+<li>Kuşatma sırasında surlardan Osmanlı ordusunu izlerken rüyasındaki kahramanın <strong>Abdurrahman Gazi</strong> olduğunu fark eder.</li>
+<li>Bir taşa sardığı mektubu surlardan aşağı atar; ordunun geri çekilmiş gibi yapıp geceleri dönmesini ister.</li>
+<li>Osmanlılar çekilince garnizon rehavete kapılır. Gece yarısı geri dönen Abdurrahman Gazi, kızın sarkıttığı urgan (ya da saç örgüsü) ile surlara tırmanır.</li>
+<li>Kapılar içeriden açılır, kale fethedilir.</li>
+</ul>
+Fethin ardından <strong>Abdurrahman Gazi tekfurun kızıyla evlenmiş</strong> ve kaleye yerleşmiştir. Prof. Dr. Halil İnalcık bu kaleyi <strong>"İstanbul'un fethinin başladığı yer"</strong> olarak tanımlamıştır.`,
+    followup: 'Bu efsanenin farklı tarihi kaynaklardaki yorumlarını merak ediyor musunuz?'
+  },
+  {
+    keys: ['kaynak','kronikleri','kronik','aşıkpaşazade','neşri','hoca sadettin','arifi','osmannâme','minyatür','tarihçi','inalcık','inalcık'],
+    title: '📖 Tarihi Kaynaklar',
+    answer: `Efsane dört farklı Osmanlı kaynağında yer almaktadır:<br><br>
+<ul>
+<li><strong>Aşıkpaşazade:</strong> Rüya, mektuplu taş ve urganla tırmanma — folklorik ve tarihsel anlatım.</li>
+<li><strong>Mehmed Neşri (Kitab-ı Cihannüma):</strong> Olayı lirik bir <em>aşk hikayesi</em> olarak kurgular.</li>
+<li><strong>Hoca Sadettin Efendi (Tâcü't-Tevârîh):</strong> Dini/mistik yorum; kızın İslam'a meyli ve rüya motifi, fethin manevi meşruiyetini sağlar.</li>
+<li><strong>Arifî (Osmannâme, 1558):</strong> Minyatürde kızın saç örgüsünü sarkıtarak Abdurrahman Gazi'yi yukarı çektiği tasvir edilir. Bu sahne, Firdevsi'nin Şehnamesi'ndeki Zal–Rudabe hikayesiyle (Rapunzel motifi) paraleldir.</li>
+</ul>
+<strong>Prof. Dr. Halil İnalcık</strong> ise Aydos'un düşüşüyle Osmanlıların Boğaz'ın Anadolu yakasına tam anlamıyla hakim olduğunu ve Konstantinopolis üzerindeki baskının geri dönülemez noktaya taşındığını vurgular.`,
+    followup: 'Kalenin mimari yapısı hakkında bilgi almak ister misiniz? 🧱'
+  },
+  {
+    keys: ['mimari','sur','surun','burç','burc','duvar','kale yapısı','yapı','inşaat','horasan','tuğla','taş','kapı','giriş','iç sur','dış sur','oval','plan'],
+    title: '🧱 Mimari Özellikler',
+    answer: `Aydos Kalesi, <strong>~26.000 m²</strong> alana yayılan, tipik bir Orta Çağ Bizans tahkimatıdır. Araziye uyumlu <strong>oval plan</strong> (dikdörtgen değil) savunmayı güçlendirmiştir.<br><br>
+<ul>
+<li><strong>Çift Sur Sistemi:</strong> İç ve dış sur hattı; aralarında ~5 metre mesafe var. Arazinin eğimi nedeniyle hendek yok. Sur kalınlığı en dar noktada ~160 cm.</li>
+<li><strong>12 Burç:</strong> 6'sı iç, 6'sı dış surda. Büyük çoğunluğu yarım daire formlu. Batı cephesi daha sağlam (saldırıya açık yön); doğu cephesi sarp vadiye baktığı için daha az burç var.</li>
+<li><strong>Kapılar:</strong> Güneydoğu Ana Kapı (çift kuleli), Batı ve Güney tali kapıları. Ayrıca Osmanlı döneminde pratik kullanım için ayrı bir giriş açılmıştır.</li>
+<li><strong>1 Numaralı Burç:</strong> Özgün Bizans iç kapısı burada; 13–14. yy "kaset duvar / almaşık tuğla-taş örgüsü" tekniğiyle yapılmış.</li>
+<li><strong>Malzeme:</strong> Yerel kireçtaşı, kumtaşı, tuğla ve horasan harcı.</li>
+</ul>`,
+    followup: 'Kale içindeki yapılar (sarnıçlar, kilise) hakkında bilgi ister misiniz?'
+  },
+  {
+    keys: ['sarnıç','sarnıc','su','depo','küp','boru','künk','su sistemi','sulama','kapasite','su deposu'],
+    title: '💧 Sarnıçlar ve Su Altyapısı',
+    answer: `Tepede doğal su kaynağı bulunmadığından, yağmur sularını toplamak için iki büyük sarnıç inşa edilmiştir:<br><br>
+<ul>
+<li><strong>I Numaralı Kuzey Sarnıcı (~300 m³):</strong> Tuğla-taş almaşık örgü, horasan harç. İç yüzeyler su geçirmez özel sıva ile kaplı. Pişmiş toprak künk boru hatları tespit edildi.</li>
+<li><strong>II Numaralı Doğu Sarnıcı (~450 m³):</strong> Kalenin en büyük su deposu. Dikdörtgen plan; güneye doğru hafif daralan form (zeminin eğimine uyum). Kuzey duvarına bitişik ek bir teknik oda mevcut. İçinde orijinal künk hatları bulundu.</li>
+</ul>
+İki sarnıç birlikte çalışarak uzun süreli kuşatmalarda <strong>tüm garnizonun su ihtiyacını</strong> karşılayabiliyordu. Bu gelişmiş su yönetimi, kalenin kendi kendine yetebilme kapasitesinin en önemli kanıtıdır.`,
+    followup: 'Kaledeki kilise ve diğer yapı kalıntılarını merak ediyor musunuz?'
+  },
+  {
+    keys: ['kilise','şapel','dini','ibadet','fresk','apsis','synthronon','mermer','templon','ambon','bazilika','nef','din'],
+    title: '⛪ Bizans Kilisesi',
+    answer: `Kazılarda ortaya çıkan <strong>üç nefli bazilika planlı kilise</strong>, Aydos Kalesi'nin en dikkat çekici iç yapısıdır.<br><br>
+<ul>
+<li>Orta Bizans dönemine ait; kalenin hem ibadet yeri hem topluluk merkezi olarak işlev görmüştür.</li>
+<li>Kuzey tarafında <strong>bitişik küçük bir şapel</strong> yer alır.</li>
+<li>Apsiste <strong>synthronon</strong> (din adamları için yarım daire basamaklar) mevcuttur.</li>
+<li>Kazılarda dağınık hâlde <strong>mermer templon parçaları, ambon kalıntıları ve sütun kaideleri</strong> bulunmuştur.</li>
+<li>Apsisin iç yüzeyinde <strong>fresk parçaları</strong> tespit edildi — duvarlar zamanında dini resimlerle süslüydü.</li>
+<li>Kullanılan mermer <strong>Marmara Adası (Prokonnesos)</strong> kaynaklıdır.</li>
+</ul>
+Kilisenin ismiyle ilgili belgelerde herhangi bir bilgiye rastlanmamıştır.`,
+    followup: 'Tahıl ambarları ve günlük yaşam alanları hakkında bilgi almak ister misiniz?'
+  },
+  {
+    keys: ['ambar','tahıl','buğday','bakla','depo','erzak','gıda','yiyecek','depolar','mühimmat'],
+    title: '🌾 Ambarlar ve Günlük Yaşam',
+    answer: `<ul>
+<li><strong>Tahıl Ambarı:</strong> Dört ardışık odadan oluşan dikdörtgen planlı depo yapısı. Duvarları horasan harçlı moloz taştan örülmüş; odalar arasında kapı boşlukları var. Kazılarda <strong>karbonlaşmış buğday ve bakla taneleri</strong> bulundu — kalenin kendi kendine yetebilme kapasitesinin kanıtı.</li>
+<li><strong>Yaşam Alanları:</strong> Küçük oda kalıntıları askerî barınak, mutfak veya geçici barınma alanı olarak kullanılmıştır. Kazılarda seramik parçaları, metal objeler (orak, saban parçaları) ve günlük eşya kalıntıları tespit edildi.</li>
+<li><strong>Mimari Taşlar — In Situ Koruma:</strong> Bizans dönemine ait büyük taş bloklar, zemine yakın platformlar üzerinde bulunduğu konuma yakın korunuyor. Taşınmadan özgün bağlamında sergilenmesi için tercih edilen <em>yerinde koruma</em> yöntemi uygulanmıştır.</li>
+</ul>`,
+    followup: 'Arkeolojik kazılar hakkında daha fazla bilgi ister misiniz? 🏺'
+  },
+  {
+    keys: ['arkeoloji','arkeolojik','kazı','kazılar','buluntu','bulundu','eser','müze','tunç','prehistorik','tarih öncesi','taş alet','el baltası','çakmaktaşı','zeynep','gülbahar','sergi'],
+    title: '🏺 Arkeolojik Kazılar (2010–2022)',
+    answer: `Kazılar <strong>2010 yılında</strong> İstanbul Arkeoloji Müzeleri Müdürlüğü (Bilimsel Başkanlık: Zeynep Kızıltan; Alan Sorumlusu: Gülbahar Baran Çelik) ve Sultanbeyli Belediyesi işbirliğiyle başlatılmıştır.<br><br>
+<ul>
+<li><strong>Kapsam:</strong> ~4.000–4.500 m² alan; binlerce metreküp toprak temizlendi. Kazılar Aralık 2022'de tamamlandı.</li>
+<li><strong>Bizans buluntuları:</strong> Seramikler, metal aletler (orak, saban parçaları), günlük eşyalar, fresk parçaları, kilise mimari öğeleri.</li>
+<li><strong>Osmanlı buluntuları:</strong> Az sayıda seramik ve madeni obje — fetih sonrası kısa süreli kullanımın kanıtı.</li>
+<li><strong>Tunç Çağı buluntuları (2017):</strong> M.Ö. 3. binyıla ait <strong>iki yontma taş el baltası</strong> ve çok sayıda çakmaktaşı alet — Aydos Tepesi'nin Bizans'tan binlerce yıl önce de kullanıldığını kanıtlıyor.</li>
+<li><strong>2017 Sergisi:</strong> "Aydos Kalesi Bulguları" adıyla İstanbul Arkeoloji Müzesi'nde düzenlendi.</li>
+</ul>
+Tüm eserler İstanbul Arkeoloji Müzeleri'ne teslim edilmiştir.`,
+    followup: 'Ziyaret bilgileri ve ulaşım hakkında bilgi almak ister misiniz? 🗺️'
+  },
+  {
+    keys: ['ziyaret','açık','kapalı','saat','ücret','fiyat','giriş','ulaşım','nasıl gidilir','otobüs','araba','park','sultanbeyli','mehmet akif','pazartesi','tarih','bilet','ne zaman açık'],
+    title: '🗺️ Ziyaret Bilgileri',
+    answer: `<ul>
+<li><strong>Açık olduğu günler:</strong> <em>Pazartesi hariç</em> her gün</li>
+<li><strong>Ziyaret saatleri:</strong> 09:00 – 19:00</li>
+<li><strong>Ulaşım:</strong> İstanbul Sultanbeyli ilçesi, Mehmet Akif Mahallesi üzerinden. Aydos Ormanı içinden araçla veya yürüyerek kalenin eteklerine ulaşılır.</li>
+<li><strong>Giriş ücretleri (2024–2025 tahmini):</strong> Otomobil ~70 TL, yaya ~25 TL. <em>(Güncel fiyatlar için kaleyi önceden arayın.)</em></li>
+<li><strong>Gezide görülecekler:</strong> Sarnıçlar, burçlar, kilise kalıntıları, tahıl ambarları, özgün Bizans kapısı, Osmanlı dönemi giriş kapısı, in situ korunan mimari taşlar.</li>
+</ul>
+🌳 Kale <strong>1. Derece Arkeolojik ve Doğal Sit Alanı</strong> statüsündedir. Yürüyüş yolları, seyir terasları ve bilgi levhaları ziyaretçiler için düzenlenmiştir.`,
+    followup: 'Kalenin stratejik önemi hakkında bilgi almak ister misiniz?'
+  },
+  {
+    keys: ['stratejik','strateji','gözetleme','askeri','savunma','üs','konum','İstanbul','konstantinopolis','marmara','gebze','kocaeli','boğaz','yol','ticaret','lojistik','önem','neden'],
+    title: '🎯 Stratejik Önemi',
+    answer: `Aydos Kalesi, <strong>İstanbul'un en yüksek noktası</strong> olan 325 metrelik tepede yer alır. Bu konum iki kritik avantaj sağlıyordu: <em>"Görülemeyeni görme"</em> ve <em>"Ulaşılamaz olma."</em><br><br>
+<ul>
+<li><strong>Gözetleme:</strong> Marmara Denizi ve Adalar'dan Gebze–Kocaeli içlerine kadar geniş bir panorama. Yakılan ateş işareti Üsküdar kulelerine haber iletirdi.</li>
+<li><strong>Yol Kontrolü:</strong> Üsküdar'dan İzmit'e uzanan tarihi askeri–ticari yol hattını kontrol altında tutuyordu.</li>
+<li><strong>Savunma Zinciri:</strong> Yoros Kalesi, Şile Kalesi ve kıyı tahkimatlarıyla birlikte Konstantinopolis'in dış savunma zincirinin en kritik halkasıydı.</li>
+<li><strong>Keçi Kalesi:</strong> Çevreleyen yoğun Aydos Ormanı ve sarp yamaçlar, kaleye ulaşımı son derece zorlaştırıyordu. Bu yüzden halk arasında "Keçi Kalesi" adıyla da anılmıştır.</li>
+</ul>
+Kalenin düşmesiyle Osmanlılar Boğaz'ın Anadolu yakasına kalıcı olarak yerleşmiş; bu durum İstanbul'un fethinin önünü açmıştır.`,
+    followup: 'Kalenin mimari yapısı veya fetih efsanesi hakkında bilgi almak ister misiniz?'
+  },
+  {
+    keys: ['restorasyon','onarım','koruma','bakanlık','sit alanı','çevre düzenlemesi','2022','proje','yenileme','konsolidasyon','reintegrasyon'],
+    title: '🔨 Restorasyon ve Koruma',
+    answer: `Kazıların ardından başlayan restorasyon süreci (2010–2022), Kültür ve Turizm Bakanlığı, Tarım ve Orman Bakanlığı, İstanbul Valiliği ve ilgili kurumların işbirliğiyle yürütülmüştür.<br><br>
+<ul>
+<li><strong>Yöntem:</strong> "Koruma-Kullanma" dengesi gözetildi. Harap surlar <em>konsolide</em> edildi (sağlamlaştırma); yıkılan kısımlar aslına uygun malzemelerle <em>reintegre</em> edildi.</li>
+<li><strong>Alan Statüsü:</strong> 1. Derece Arkeolojik ve Doğal Sit Alanı — hassas çevre düzenlemesi yapıldı.</li>
+<li><strong>Tamamlanma:</strong> 2022 yılında tüm çalışmalar tamamlandı; kale dünya kültür mirasına ve turizme kazandırıldı.</li>
+<li><strong>Altyapı:</strong> Yürüyüş yolları, seyir terasları ve bilgilendirme levhaları yerleştirildi.</li>
+</ul>
+Sultanbeyli Belediyesi, uluslararası sempozyumlar ve etkinliklerle kaleyi ilçenin marka değeri olarak konumlandırmaktadır.`,
+    followup: 'Ziyaret saatleri veya ulaşım bilgisi almak ister misiniz? 🗺️'
+  },
+  {
+    keys: ['merhaba','selam','hi','hello','hey','nasılsın','naber','iyi günler','günaydın','iyi akşamlar'],
+    title: '👋 Merhaba!',
+    answer: `Merhaba! Ben <strong>Aydos Kalesi'nin dijital rehberi</strong>yim. 🏹<br><br>
+Size kalenin tarihi, efsaneleri, mimari özellikleri, arkeolojik bulguları veya ziyaret bilgileri hakkında yardımcı olabilirim. Ne öğrenmek istersiniz?`,
+    followup: null
+  },
+  {
+    keys: ['teşekkür','teşekkürler','sağol','sağolun','eyvallah','thanks','thank you'],
+    title: '🙏',
+    answer: `Rica ederim! Aydos Kalesi hakkında başka merak ettiğiniz bir şey varsa sormaktan çekinmeyin. 🏹`,
+    followup: null
+  }
+];
 
-== KALENIN TEMEL BİLGİLERİ ==
-- Resmi adı: Aydos Kalesi. Halk arasında "Keçi Kalesi" de denir (sarp yamaçları nedeniyle).
-- Konum: İstanbul'un Sultanbeyli ilçesi sınırlarında, 325 metre rakımlı Aydos Tepesi'nde.
-- İstanbul'un en yüksek noktasıdır.
-- Görüş alanı: Marmara Denizi ve Adalar'dan Gebze ve Kocaeli'ye kadar uzanır.
-- İnşaat dönemi: 11. ve 12. yüzyıllar, Bizans (Doğu Roma) İmparatorluğu, Komnenos Hanedanı dönemi.
-- Toplam alan: ~26.000 m²
-- İsmin kökeni: Yunanca "Aetos" (kartal) kelimesinden türediği düşünülür.
+// ════════════════════════════════════════════════════════
+// YANIT MOTORU
+// ════════════════════════════════════════════════════════
+function findAnswer(text) {
+  const q = text.toLowerCase()
+    .replace(/[ğ]/g,'g').replace(/[ü]/g,'u').replace(/[ş]/g,'s')
+    .replace(/[ı]/g,'i').replace(/[ö]/g,'o').replace(/[ç]/g,'c');
 
-== STRATEJİK ÖNEMİ ==
-- Üsküdar'dan İzmit'e uzanan tarihi yol hattını gözetliyordu.
-- Konstantinopolis'i (İstanbul) korumak için oluşturulan dış savunma zincirinin en kritik halkasıydı.
-- Yoros Kalesi, Şile Kalesi ve kıyı tahkimatlarıyla birlikte savunma ağı oluşturuyordu.
-- Stratejik fonksiyonları: gözetleme ve işaret ateşiyle haber iletme, lojistik denetim, akın önleme.
+  let bestMatch = null;
+  let bestScore = 0;
 
-== MİMARİ ÖZELLİKLER ==
-- Plan tipi: Araziye uyumlu oval/beyzi form (dikdörtgen değil).
-- Sur sistemi: Çift surlu — iç sur ve dış sur. İkisi arasında ~5 metre mesafe var. Arazinin eğimi nedeniyle hendek yok.
-- Sur kalınlığı: En dar noktada ~160 cm.
-- Toplam burç: 12 adet (6'sı iç surda, 6'sı dış surda). Burçların çoğu yarım daire formunda.
-- Batı cephesi daha sağlam inşa edilmiş (saldırıya daha açık yön). Doğu cephesi sarp vadiye baktığı için daha zayıf.
-- Kapılar: Güneydoğu (ana kapı, çift kuleli), Batı ve Güney (ikmal/tali kapılar).
-- 1 numaralı Burç: Özgün Bizans iç kale kapısını barındırır; 13-14. yy "kaset duvar / almaşık tuğla-taş örgüsü" tekniğiyle yapılmış.
-- Osmanlı dönemi giriş kapısı: Fetihten sonra pratik kullanım için açılmış ayrı bir kapı; savunma değil kolaylık amaçlı.
-- Horasan harcı, yerel kireçtaşı ve tuğla kullanılmıştır.
+  for (const item of KB) {
+    let score = 0;
+    for (const key of item.keys) {
+      const normKey = key.toLowerCase()
+        .replace(/[ğ]/g,'g').replace(/[ü]/g,'u').replace(/[ş]/g,'s')
+        .replace(/[ı]/g,'i').replace(/[ö]/g,'o').replace(/[ç]/g,'c');
+      if (q.includes(normKey)) {
+        score += normKey.length; // uzun eşleşmeler daha değerli
+      }
+    }
+    if (score > bestScore) {
+      bestScore = score;
+      bestMatch = item;
+    }
+  }
 
-== SARNÇLAR ==
-- I Numaralı Kuzey Sarnıcı: ~300 m³ kapasite. Tuğla-taş almaşık örgü, horasan harç, su geçirmez iç sıva.
-- II Numaralı Doğu Sarnıcı: ~450 m³ kapasite (kalenin en büyük su deposu). Dikdörtgen plan, güneye doğru daralan form.
-- Her iki sarnıçta da pişmiş toprak künk boru hatları bulunmuştur; gelişmiş su yönetim altyapısı.
-- Tepede doğal su kaynağı olmadığı için yağmur suyu toplanıyordu.
+  if (bestMatch && bestScore > 0) {
+    return bestMatch;
+  }
 
-== KİLİSE VE DİĞER YAPI KALINTILARI ==
-- Orta Bizans dönemine ait üç nefli bazilika planlı kilise. İsmini bilmiyoruz.
-- Kuzey tarafında bitişik küçük bir şapel.
-- Apsis bölümünde synthronon (din adamları için yarım daire basamaklar).
-- Mermer templon parçaları, ambon kalıntıları, sütun kaideleri bulundu.
-- Fresk parçaları tespit edildi — duvarları dini resimlerle süslüydü.
-- Mermerin Marmara Adası (Prokonnesos) kaynaklı olduğu anlaşılmış.
-- Ambarlar: Dört odadan oluşan tahıl deposu; kazılarda karbonlaşmış buğday ve bakla bulundu.
-- Günlük yaşam alanları: askerî barınak, mutfak, geçici barınma mekânları.
+  // Varsayılan yanıt
+  return {
+    title: null,
+    answer: `Bu konuda elimde yeterli bilgi bulunmuyor. Size <strong>şu konularda</strong> yardımcı olabilirim:<br><br>
+<ul>
+<li>📜 Kalenin tarihi ve kronolojisi</li>
+<li>⚔️ Fetih efsanesi (Abdurrahman Gazi)</li>
+<li>🧱 Mimari özellikler (surlar, burçlar, kapılar)</li>
+<li>💧 Sarnıçlar ve su altyapısı</li>
+<li>⛪ Bizans kilisesi</li>
+<li>🏺 Arkeolojik kazılar</li>
+<li>🗺️ Ziyaret saatleri ve ulaşım</li>
+</ul>`,
+    followup: 'Yukarıdakilerden birini sormak ister misiniz?'
+  };
+}
 
-== TARİHSEL KRONOLOJİ ==
-- Tunç Çağı (yaklaşık M.Ö. 3000-1200): Tepede taş aletler ve kültür varlıkları bulundu. Sığınak, gözetleme veya kutsal alan olarak kullanılmış olabilir.
-- 11-12. yy: Komnenos hanedanı döneminde mevcut kalenin inşası. 1071 Malazgirt Savaşı sonrası artan Türk baskısına karşı.
-- 13-14. yy: Onarımlar. Waffle slab (kaset döşeme) tekniğiyle güçlendirme. Osmanlı tehdidinin zirve dönemi.
-- 1328: Orhan Gazi döneminde Abdurrahman Gazi tarafından fethedildi.
-- 1453 sonrası: İstanbul'un fethiyle sınır kalesi özelliğini yitirdi, zamanla terk edildi.
-- Hoca Sadettin Efendi'nin aktarımına göre Orhan Gazi, İzmit alındıktan (1337) sonra kaleyi yıktırmıştır.
-- 2010: Kazı ve restorasyon başladı.
-- 2022: Çalışmalar tamamlandı, turizme açıldı.
-
-== FETIH EFSANESİ — ABDURRAHMAN GAZİ VE TEKFUR'UN KIZI ==
-Osmanlı kroniklerinde (Tevarih-i Al-i Osman) anlatılan efsane:
-1. Aydos tekfurunun (valinin) kızı, rüyasında bir çukura düştüğünü, nur yüzlü bir kahramanın kendisini kurtarıp yıkadıktan sonra yeni elbiseler giydirdiğini görür.
-2. Kuşatma sırasında Osmanlı ordusunu izlerken, rüyasındaki kahramanın Abdurrahman Gazi olduğunu fark eder.
-3. Bir taşa sardığı mektubu surlardan aşağı atar; ordunun geri çekilmiş gibi yapıp geceleyin dönmesini ister.
-4. Osmanlılar çekilince kale garnizonu rehavete kapılır.
-5. Gece yarısı geri dönen Abdurrahman Gazi, kızın sarkıttığı urgan (veya saç örgüsü) ile surlara tırmanır.
-6. Kapılar içeriden açılır, kale fethedilir.
-Kaynaklar: Aşıkpaşazade (folklorik), Mehmed Neşri (romantik aşk hikayesi), Hoca Sadettin Efendi (dini/mistik yorum), Arifî'nin Osmannâmesi'ndeki minyatür (görsel — saç örgüsüyle çekme sahnesi).
-Arifî'nin minyatürü, Firdevsi'nin Şehnamesi'ndeki Zal-Rudabe hikayesiyle (Rapunzel motifi) benzerlik taşır.
-Fethin ardından Abdurrahman Gazi tekfurun kızıyla evlenmiş ve Aydos Kalesi'ne yerleşmiştir.
-Prof. Dr. Halil İnalcık bu kaleyi "İstanbul'un fethinin başladığı yer" olarak tanımlamıştır.
-
-== ARKEOLOJİK KAZILAR (2010–2018) ==
-- Yürüten kurum: İstanbul Arkeoloji Müzeleri Müdürlüğü (bilimsel başkanlık: Zeynep Kızıltan; alan sorumlusu: Gülbahar Baran Çelik) + Sultanbeyli Belediyesi.
-- Kapsam: ~4.000-4.500 m² alan; binlerce metreküp toprak temizlendi.
-- Buluntular: Seramikler, metal aletler (orak, saban parçaları), günlük eşyalar, az sayıda Osmanlı dönemi objesi.
-- 2017 kazılarında M.Ö. 3. binyıla tarihlenen iki adet yontma taş el baltası ve çakmaktaşı aletler bulundu.
-- 2017'de "Aydos Kalesi Bulguları" sergisi İstanbul Arkeoloji Müzesi'nde açıldı.
-- Tüm eserler İstanbul Arkeoloji Müzeleri'ne teslim edildi.
-- Restorasyon: 2010-2022, Kültür Bakanlığı, İstanbul Valiliği ve ilgili kurumların işbirliğiyle.
-- Yöntem: Koruma-kullanma dengesi; konsolidasyon (sağlamlaştırma) ve reintegrasyon (aslına uygun tamamlama).
-- 1. Derece Arkeolojik ve Doğal Sit Alanı statüsü.
-
-== ZİYARET BİLGİLERİ ==
-- Açık olduğu günler: Pazartesi hariç her gün.
-- Saatler: 09:00 – 19:00.
-- Ulaşım: Sultanbeyli ilçesi, Mehmet Akif Mahallesi üzerinden. Aydos Ormanı içinden araçla veya yürüyerek kalenin eteklerine ulaşılır.
-- Giriş ücretleri (2024-2025 tahmini): Otomobil ~70 TL, yaya ~25 TL (resmi güncel fiyat için kaleyi doğrudan arayın).
-- Gezide görülecekler: Sarnıçlar, burçlar, kilise kalıntıları, ambarlar, özgün Bizans kapısı, Osmanlı dönemi giriş kapısı, mimari taşlar (in situ koruma).
-- Not: Ücretler değişkenlik gösterebilir, ziyaret öncesi güncel bilgi alınması önerilir.
-
-== YANIT KURALLARI ==
-- Yalnızca yukarıdaki bilgilere dayan. Bilmediğin bir şey sorulursa "Bunu doğrulayamıyorum, lütfen resmi kaynakları kontrol edin" de.
-- Teknik terimleri turistlere anlaşılır şekilde açıkla.
-- Kaleyi heyecanlandırıcı ve ilgi çekici bir dille anlat.
-- Yanıt sonunda konuyla bağlantılı bir takip sorusu sor.
-- Yanıtları 3-6 cümle uzunluğunda tut; çok uzun liste yazmaktan kaçın.`;
-
-// ═══════════════════════════════════════════════════
-// CHAT STATE
-// ═══════════════════════════════════════════════════
-let history = [];
+// ════════════════════════════════════════════════════════
+// UI
+// ════════════════════════════════════════════════════════
 let isLoading = false;
 
-// ═══════════════════════════════════════════════════
-// UI HELPERS
-// ═══════════════════════════════════════════════════
-function scrollBottom() {
-  const m = document.getElementById('messages');
-  m.scrollTop = m.scrollHeight;
+function scrollToBot(el) {
+  setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
 }
 
 function autoResize(el) {
@@ -574,32 +634,25 @@ function autoResize(el) {
 }
 
 function handleKey(e) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
-  }
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
 }
 
 function appendUserBubble(text) {
   const div = document.createElement('div');
   div.className = 'user-row';
-  div.innerHTML = `<div class="user-bubble">${escHtml(text)}</div>`;
+  div.innerHTML = `<div class="user-bubble">${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>`;
   document.getElementById('messages').appendChild(div);
-  scrollBottom();
+  div.scrollIntoView({ behavior: 'smooth', block: 'end' });
 }
 
 function appendTyping() {
   const div = document.createElement('div');
   div.className = 'typing-row';
   div.id = 'typing';
-  div.innerHTML = `
-    <div class="avatar">🏹</div>
-    <div class="typing-dots">
-      <span></span><span></span><span></span>
-    </div>`;
+  div.innerHTML = `<div class="avatar">🏹</div>
+    <div class="typing-dots"><span></span><span></span><span></span></div>`;
   document.getElementById('messages').appendChild(div);
-  scrollBottom();
-  return div;
+  div.scrollIntoView({ behavior: 'smooth', block: 'end' });
 }
 
 function removeTyping() {
@@ -607,106 +660,44 @@ function removeTyping() {
   if (t) t.remove();
 }
 
-function appendBotBubble(text, isError = false) {
+function appendBotBubble(item) {
   const div = document.createElement('div');
   div.className = 'bot-row';
+  const titleHtml = item.title ? `<p><strong>${item.title}</strong></p>` : '';
+  const followHtml = item.followup ? `<p style="margin-top:10px;font-style:italic;color:var(--cream-dim);font-size:15px;">💬 ${item.followup}</p>` : '';
   div.innerHTML = `
     <div class="avatar">🏹</div>
     <div>
       <div class="bot-name">AYDOS — Dijital Rehber</div>
-      <div class="msg-bubble ${isError ? 'error-bubble' : ''}">${formatText(text)}</div>
+      <div class="msg-bubble">${titleHtml}${item.answer}${followHtml}</div>
     </div>`;
   document.getElementById('messages').appendChild(div);
-  // Cevabın ilk cümlesinden (başından) görünsün
-  div.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  scrollToBot(div);
 }
 
-function formatText(text) {
-  // Bold
-  text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-  // Italic
-  text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
-  // Bullet lists
-  const lines = text.split('\n');
-  let inList = false;
-  let out = '';
-  for (let line of lines) {
-    const trimmed = line.trim();
-    if (trimmed.startsWith('- ') || trimmed.startsWith('• ')) {
-      if (!inList) { out += '<ul>'; inList = true; }
-      out += `<li>${trimmed.slice(2)}</li>`;
-    } else {
-      if (inList) { out += '</ul>'; inList = false; }
-      if (trimmed) out += `<p>${trimmed}</p>`;
-    }
-  }
-  if (inList) out += '</ul>';
-  return out || `<p>${text}</p>`;
-}
-
-function escHtml(str) {
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
-// ═══════════════════════════════════════════════════
-// SEND LOGIC
-// ═══════════════════════════════════════════════════
-async function sendMessage() {
+function sendMessage() {
   const input = document.getElementById('user-input');
   const text = input.value.trim();
   if (!text || isLoading) return;
 
-  // Hide suggestions after first message
   document.getElementById('suggestions').style.display = 'none';
-
   isLoading = true;
   document.getElementById('send-btn').disabled = true;
   input.value = '';
   input.style.height = 'auto';
 
   appendUserBubble(text);
-  history.push({ role: 'user', content: text });
+  appendTyping();
 
-  const typingEl = appendTyping();
-
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: SYSTEM_PROMPT,
-        messages: history
-      })
-    });
-
-    const data = await response.json();
+  // Gerçekçi bir yazıyor gecikmesi
+  setTimeout(() => {
     removeTyping();
-
-    if (!response.ok) {
-      appendBotBubble('Bağlantı hatası oluştu. Lütfen tekrar deneyin.', true);
-      history.pop();
-    } else {
-      const reply = data.content
-        .filter(b => b.type === 'text')
-        .map(b => b.text)
-        .join('\n');
-      history.push({ role: 'assistant', content: reply });
-      appendBotBubble(reply);
-    }
-  } catch (err) {
-    removeTyping();
-    appendBotBubble('Bir hata oluştu. İnternet bağlantınızı kontrol edip tekrar deneyin.', true);
-    history.pop();
-  }
-
-  isLoading = false;
-  document.getElementById('send-btn').disabled = false;
-  input.focus();
+    const result = findAnswer(text);
+    appendBotBubble(result);
+    isLoading = false;
+    document.getElementById('send-btn').disabled = false;
+    input.focus();
+  }, 700 + Math.random() * 400);
 }
 
 function sendSuggestion(text) {
