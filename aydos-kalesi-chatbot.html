@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aydos Kalesi — Dijital Rehber</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --stone:    #2e2719;
+    --stone-mid:#395a26;
+    --stone-lt: #3d5f28;
+    --gold:     #c9a84c;
+    --gold-lt:  #e8c97a;
+    --gold-dim: #8a6d2a;
+    --cream:    #f2e8d5;
+    --cream-dim:#c9b99a;
+    --red:      #7a2020;
+    --parchment:#e8dcc4;
+    --shadow:   rgba(0,0,0,0.6);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--stone);
+    color: var(--cream);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 17px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+  }
+
+  /* === STONE TEXTURE OVERLAY === */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse at 20% 50%, rgba(201,168,76,0.05) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(122,32,32,0.07) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* === DECORATIVE TOP ARCH === */
+  .arch-header {
+    width: 100%;
+    max-width: 760px;
+    padding: 36px 32px 0;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+
+  .arch-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 10px;
+  }
+
+  .arch-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  }
+
+  .arch-diamond {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    box-shadow: 0 0 12px var(--gold);
+  }
+
+  .castle-icon {
+    font-size: 28px;
+    line-height: 1;
+    filter: drop-shadow(0 0 8px rgba(201,168,76,0.5));
+  }
+
+  .header-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(22px, 5vw, 34px);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--gold-lt);
+    text-shadow: 0 0 30px rgba(201,168,76,0.3);
+    line-height: 1.2;
+  }
+
+  .header-subtitle {
+    font-family: 'Crimson Pro', serif;
+    font-size: 14px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--cream-dim);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* === MAIN CHAT CONTAINER === */
+  .chat-wrap {
+    width: 100%;
+    max-width: 760px;
+    padding: 24px 16px 0;
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* === QUICK SUGGESTIONS === */
+  .suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .suggestion-btn {
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.25);
+    color: var(--gold-lt);
+    font-family: 'Crimson Pro', serif;
+    font-size: 13px;
+    font-style: italic;
+    padding: 6px 14px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+
+  .suggestion-btn:hover {
+    background: rgba(201,168,76,0.18);
+    border-color: var(--gold);
+    color: var(--gold-lt);
+  }
+
+  /* === MESSAGES AREA === */
+  .messages {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 8px 0 24px;
+    min-height: 340px;
+    max-height: 52vh;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold-dim) transparent;
+  }
+
+  .messages::-webkit-scrollbar { width: 4px; }
+  .messages::-webkit-scrollbar-thumb {
+    background: var(--gold-dim);
+    border-radius: 2px;
+  }
+
+  /* === WELCOME MESSAGE === */
+  .welcome-msg {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    animation: fadeSlide 0.5s ease;
+  }
+
+  .avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-dim), var(--stone-lt));
+    border: 1px solid var(--gold-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
+    box-shadow: 0 0 12px rgba(201,168,76,0.2);
+  }
+
+  .msg-bubble {
+    background: rgba(57,90,38,0.85);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 2px 12px 12px 12px;
+    padding: 14px 18px;
+    max-width: 88%;
+    backdrop-filter: blur(4px);
+    line-height: 1.65;
+  }
+
+  .msg-bubble p { margin-bottom: 6px; }
+  .msg-bubble p:last-child { margin-bottom: 0; }
+
+  .msg-bubble strong {
+    color: var(--gold-lt);
+    font-weight: 600;
+  }
+
+  .bot-name {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    color: var(--gold-dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  /* === USER MESSAGE === */
+  .user-row {
+    display: flex;
+    justify-content: flex-end;
+    animation: fadeSlide 0.3s ease;
+  }
+
+  .user-bubble {
+    background: rgba(57,90,38,0.6);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 12px 2px 12px 12px;
+    padding: 12px 16px;
+    max-width: 75%;
+    line-height: 1.6;
+    color: var(--cream);
+  }
+
+  /* === BOT RESPONSE ROW === */
+  .bot-row {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    animation: fadeSlide 0.4s ease;
+  }
+
+  /* === TYPING INDICATOR === */
+  .typing-row {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    animation: fadeSlide 0.3s ease;
+  }
+
+  .typing-dots {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    padding: 14px 18px;
+    background: rgba(57,90,38,0.85);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 2px 12px 12px 12px;
+    min-width: 60px;
+  }
+
+  .typing-dots span {
+    width: 7px; height: 7px;
+    background: var(--gold-dim);
+    border-radius: 50%;
+    animation: pulse 1.2s ease infinite;
+  }
+  .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+  /* === INPUT AREA === */
+  .input-section {
+    padding: 20px 0 30px;
+    position: sticky;
+    bottom: 0;
+    background: linear-gradient(transparent, var(--stone) 30%);
+  }
+
+  .input-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+    margin-bottom: 16px;
+    opacity: 0.4;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+  }
+
+  #user-input {
+    flex: 1;
+    background: rgba(57,90,38,0.8);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 4px;
+    color: var(--cream);
+    font-family: 'Crimson Pro', serif;
+    font-size: 16px;
+    padding: 12px 16px;
+    resize: none;
+    min-height: 50px;
+    max-height: 130px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    backdrop-filter: blur(4px);
+    line-height: 1.5;
+  }
+
+  #user-input::placeholder {
+    color: rgba(201,184,154,0.4);
+    font-style: italic;
+  }
+
+  #user-input:focus {
+    border-color: rgba(201,168,76,0.6);
+    box-shadow: 0 0 16px rgba(201,168,76,0.1);
+  }
+
+  #send-btn {
+    background: linear-gradient(135deg, var(--gold-dim), #6b5220);
+    border: 1px solid var(--gold-dim);
+    color: var(--cream);
+    width: 50px;
+    height: 50px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  #send-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+    box-shadow: 0 0 16px rgba(201,168,76,0.3);
+    transform: translateY(-1px);
+  }
+
+  #send-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* === BOTTOM META === */
+  .bottom-meta {
+    text-align: center;
+    font-size: 11px;
+    color: rgba(201,184,154,0.3);
+    letter-spacing: 0.1em;
+    padding-bottom: 10px;
+    font-style: italic;
+    font-family: 'Crimson Pro', serif;
+  }
+
+  /* === ANIMATIONS === */
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 80%, 100% { transform: scale(0.7); opacity: 0.5; }
+    40%           { transform: scale(1);   opacity: 1; }
+  }
+
+  /* === FORMATTED RESPONSE === */
+  .msg-bubble ul {
+    margin: 8px 0 4px 18px;
+    color: var(--cream);
+  }
+  .msg-bubble li { margin-bottom: 3px; line-height: 1.6; }
+
+  /* === ERROR STATE === */
+  .error-bubble {
+    background: rgba(122,32,32,0.3);
+    border-color: rgba(122,32,32,0.5);
+    color: #e8b0b0;
+  }
+
+  /* mobile */
+  @media (max-width: 520px) {
+    .arch-header { padding: 24px 16px 0; }
+    .msg-bubble { max-width: 95%; }
+    .user-bubble { max-width: 88%; }
+    .messages { max-height: 46vh; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="arch-header">
+  <div class="arch-ornament">
+    <div class="arch-line"></div>
+    <div class="arch-diamond"></div>
+    <span class="castle-icon">🏹</span>
+    <div class="arch-diamond"></div>
+    <div class="arch-line"></div>
+  </div>
+  <h1 class="header-title">AYDOS KALESİ</h1>
+  <p class="header-subtitle">Dijital Rehber · 1328</p>
+  <div class="arch-ornament" style="margin-top:12px;margin-bottom:0">
+    <div class="arch-line"></div>
+    <div class="arch-diamond"></div>
+    <div class="arch-line"></div>
+  </div>
+</div>
+
+<!-- CHAT WRAPPER -->
+<div class="chat-wrap">
+
+  <!-- QUICK SUGGESTIONS -->
+  <div class="suggestions" id="suggestions">
+    <button class="suggestion-btn" onclick="sendSuggestion('Kalenin tarihi nedir?')">📜 Kalenin tarihi</button>
+    <button class="suggestion-btn" onclick="sendSuggestion('Abdurrahman Gazi efsanesini anlat')">⚔️ Fetih efsanesi</button>
+    <button class="suggestion-btn" onclick="sendSuggestion('Ziyaret saatleri ve ulaşım bilgisi')">🗺️ Ziyaret bilgisi</button>
+    <button class="suggestion-btn" onclick="sendSuggestion('Arkeolojik kazılarda neler bulundu?')">🏺 Arkeoloji</button>
+    <button class="suggestion-btn" onclick="sendSuggestion('Kale mimarisi nasıl?')">🧱 Mimari</button>
+  </div>
+
+  <!-- MESSAGES -->
+  <div class="messages" id="messages">
+    <!-- Welcome message -->
+    <div class="welcome-msg">
+      <div class="avatar">🏹</div>
+      <div>
+        <div class="bot-name">AYDOS — Dijital Rehber</div>
+        <div class="msg-bubble">
+          <p>Hoş geldiniz. Ben <strong>Aydos Kalesi'nin dijital rehberi</strong>yim.</p>
+          <p>İstanbul'un en yüksek noktasında, 325 metre rakımda yükselen bu Bizans kalesinin tarihi, efsaneleri, arkeolojik bulguları ve ziyaret bilgileri hakkında sorularınızı yanıtlayabilirim.</p>
+          <p>Ne merak ediyorsunuz? 🏹</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INPUT AREA -->
+  <div class="input-section">
+    <div class="input-divider"></div>
+    <div class="input-row">
+      <textarea
+        id="user-input"
+        placeholder="Kale hakkında bir şey sorun…"
+        rows="1"
+        onkeydown="handleKey(event)"
+        oninput="autoResize(this)"
+      ></textarea>
+      <button id="send-btn" onclick="sendMessage()" title="Gönder">➤</button>
+    </div>
+  </div>
+
+  <div class="bottom-meta">Aydos Kalesi · Sultanbeyli, İstanbul · Pazartesi hariç 09:00–19:00</div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// SYSTEM PROMPT — tüm PDF içeriği burada
+// ═══════════════════════════════════════════════════
+const SYSTEM_PROMPT = `Sen "Aydos" adlı, İstanbul'un tarihi Aydos Kalesi'nin resmi dijital rehberisin. 
+Turistlere ve ziyaretçilere bilgi veriyorsun. Sıcak, bilgili ve coşkulu bir rehber gibi konuşursun.
+Yanıtlarını Türkçe ver; kullanıcı başka dilde yazarsa o dile geç.
+Kısa ve akıcı yanıtlar ver (3-5 cümle, gerekirse madde listesi). Her yanıtın sonunda ilgili bir konuya yönlendiren kısa bir soru sor.
+
+== KALENIN TEMEL BİLGİLERİ ==
+- Resmi adı: Aydos Kalesi. Halk arasında "Keçi Kalesi" de denir (sarp yamaçları nedeniyle).
+- Konum: İstanbul'un Sultanbeyli ilçesi sınırlarında, 325 metre rakımlı Aydos Tepesi'nde.
+- İstanbul'un en yüksek noktasıdır.
+- Görüş alanı: Marmara Denizi ve Adalar'dan Gebze ve Kocaeli'ye kadar uzanır.
+- İnşaat dönemi: 11. ve 12. yüzyıllar, Bizans (Doğu Roma) İmparatorluğu, Komnenos Hanedanı dönemi.
+- Toplam alan: ~26.000 m²
+- İsmin kökeni: Yunanca "Aetos" (kartal) kelimesinden türediği düşünülür.
+
+== STRATEJİK ÖNEMİ ==
+- Üsküdar'dan İzmit'e uzanan tarihi yol hattını gözetliyordu.
+- Konstantinopolis'i (İstanbul) korumak için oluşturulan dış savunma zincirinin en kritik halkasıydı.
+- Yoros Kalesi, Şile Kalesi ve kıyı tahkimatlarıyla birlikte savunma ağı oluşturuyordu.
+- Stratejik fonksiyonları: gözetleme ve işaret ateşiyle haber iletme, lojistik denetim, akın önleme.
+
+== MİMARİ ÖZELLİKLER ==
+- Plan tipi: Araziye uyumlu oval/beyzi form (dikdörtgen değil).
+- Sur sistemi: Çift surlu — iç sur ve dış sur. İkisi arasında ~5 metre mesafe var. Arazinin eğimi nedeniyle hendek yok.
+- Sur kalınlığı: En dar noktada ~160 cm.
+- Toplam burç: 12 adet (6'sı iç surda, 6'sı dış surda). Burçların çoğu yarım daire formunda.
+- Batı cephesi daha sağlam inşa edilmiş (saldırıya daha açık yön). Doğu cephesi sarp vadiye baktığı için daha zayıf.
+- Kapılar: Güneydoğu (ana kapı, çift kuleli), Batı ve Güney (ikmal/tali kapılar).
+- 1 numaralı Burç: Özgün Bizans iç kale kapısını barındırır; 13-14. yy "kaset duvar / almaşık tuğla-taş örgüsü" tekniğiyle yapılmış.
+- Osmanlı dönemi giriş kapısı: Fetihten sonra pratik kullanım için açılmış ayrı bir kapı; savunma değil kolaylık amaçlı.
+- Horasan harcı, yerel kireçtaşı ve tuğla kullanılmıştır.
+
+== SARNÇLAR ==
+- I Numaralı Kuzey Sarnıcı: ~300 m³ kapasite. Tuğla-taş almaşık örgü, horasan harç, su geçirmez iç sıva.
+- II Numaralı Doğu Sarnıcı: ~450 m³ kapasite (kalenin en büyük su deposu). Dikdörtgen plan, güneye doğru daralan form.
+- Her iki sarnıçta da pişmiş toprak künk boru hatları bulunmuştur; gelişmiş su yönetim altyapısı.
+- Tepede doğal su kaynağı olmadığı için yağmur suyu toplanıyordu.
+
+== KİLİSE VE DİĞER YAPI KALINTILARI ==
+- Orta Bizans dönemine ait üç nefli bazilika planlı kilise. İsmini bilmiyoruz.
+- Kuzey tarafında bitişik küçük bir şapel.
+- Apsis bölümünde synthronon (din adamları için yarım daire basamaklar).
+- Mermer templon parçaları, ambon kalıntıları, sütun kaideleri bulundu.
+- Fresk parçaları tespit edildi — duvarları dini resimlerle süslüydü.
+- Mermerin Marmara Adası (Prokonnesos) kaynaklı olduğu anlaşılmış.
+- Ambarlar: Dört odadan oluşan tahıl deposu; kazılarda karbonlaşmış buğday ve bakla bulundu.
+- Günlük yaşam alanları: askerî barınak, mutfak, geçici barınma mekânları.
+
+== TARİHSEL KRONOLOJİ ==
+- Tunç Çağı (yaklaşık M.Ö. 3000-1200): Tepede taş aletler ve kültür varlıkları bulundu. Sığınak, gözetleme veya kutsal alan olarak kullanılmış olabilir.
+- 11-12. yy: Komnenos hanedanı döneminde mevcut kalenin inşası. 1071 Malazgirt Savaşı sonrası artan Türk baskısına karşı.
+- 13-14. yy: Onarımlar. Waffle slab (kaset döşeme) tekniğiyle güçlendirme. Osmanlı tehdidinin zirve dönemi.
+- 1328: Orhan Gazi döneminde Abdurrahman Gazi tarafından fethedildi.
+- 1453 sonrası: İstanbul'un fethiyle sınır kalesi özelliğini yitirdi, zamanla terk edildi.
+- Hoca Sadettin Efendi'nin aktarımına göre Orhan Gazi, İzmit alındıktan (1337) sonra kaleyi yıktırmıştır.
+- 2010: Kazı ve restorasyon başladı.
+- 2022: Çalışmalar tamamlandı, turizme açıldı.
+
+== FETIH EFSANESİ — ABDURRAHMAN GAZİ VE TEKFUR'UN KIZI ==
+Osmanlı kroniklerinde (Tevarih-i Al-i Osman) anlatılan efsane:
+1. Aydos tekfurunun (valinin) kızı, rüyasında bir çukura düştüğünü, nur yüzlü bir kahramanın kendisini kurtarıp yıkadıktan sonra yeni elbiseler giydirdiğini görür.
+2. Kuşatma sırasında Osmanlı ordusunu izlerken, rüyasındaki kahramanın Abdurrahman Gazi olduğunu fark eder.
+3. Bir taşa sardığı mektubu surlardan aşağı atar; ordunun geri çekilmiş gibi yapıp geceleyin dönmesini ister.
+4. Osmanlılar çekilince kale garnizonu rehavete kapılır.
+5. Gece yarısı geri dönen Abdurrahman Gazi, kızın sarkıttığı urgan (veya saç örgüsü) ile surlara tırmanır.
+6. Kapılar içeriden açılır, kale fethedilir.
+Kaynaklar: Aşıkpaşazade (folklorik), Mehmed Neşri (romantik aşk hikayesi), Hoca Sadettin Efendi (dini/mistik yorum), Arifî'nin Osmannâmesi'ndeki minyatür (görsel — saç örgüsüyle çekme sahnesi).
+Arifî'nin minyatürü, Firdevsi'nin Şehnamesi'ndeki Zal-Rudabe hikayesiyle (Rapunzel motifi) benzerlik taşır.
+Fethin ardından Abdurrahman Gazi tekfurun kızıyla evlenmiş ve Aydos Kalesi'ne yerleşmiştir.
+Prof. Dr. Halil İnalcık bu kaleyi "İstanbul'un fethinin başladığı yer" olarak tanımlamıştır.
+
+== ARKEOLOJİK KAZILAR (2010–2018) ==
+- Yürüten kurum: İstanbul Arkeoloji Müzeleri Müdürlüğü (bilimsel başkanlık: Zeynep Kızıltan; alan sorumlusu: Gülbahar Baran Çelik) + Sultanbeyli Belediyesi.
+- Kapsam: ~4.000-4.500 m² alan; binlerce metreküp toprak temizlendi.
+- Buluntular: Seramikler, metal aletler (orak, saban parçaları), günlük eşyalar, az sayıda Osmanlı dönemi objesi.
+- 2017 kazılarında M.Ö. 3. binyıla tarihlenen iki adet yontma taş el baltası ve çakmaktaşı aletler bulundu.
+- 2017'de "Aydos Kalesi Bulguları" sergisi İstanbul Arkeoloji Müzesi'nde açıldı.
+- Tüm eserler İstanbul Arkeoloji Müzeleri'ne teslim edildi.
+- Restorasyon: 2010-2022, Kültür Bakanlığı, İstanbul Valiliği ve ilgili kurumların işbirliğiyle.
+- Yöntem: Koruma-kullanma dengesi; konsolidasyon (sağlamlaştırma) ve reintegrasyon (aslına uygun tamamlama).
+- 1. Derece Arkeolojik ve Doğal Sit Alanı statüsü.
+
+== ZİYARET BİLGİLERİ ==
+- Açık olduğu günler: Pazartesi hariç her gün.
+- Saatler: 09:00 – 19:00.
+- Ulaşım: Sultanbeyli ilçesi, Mehmet Akif Mahallesi üzerinden. Aydos Ormanı içinden araçla veya yürüyerek kalenin eteklerine ulaşılır.
+- Giriş ücretleri (2024-2025 tahmini): Otomobil ~70 TL, yaya ~25 TL (resmi güncel fiyat için kaleyi doğrudan arayın).
+- Gezide görülecekler: Sarnıçlar, burçlar, kilise kalıntıları, ambarlar, özgün Bizans kapısı, Osmanlı dönemi giriş kapısı, mimari taşlar (in situ koruma).
+- Not: Ücretler değişkenlik gösterebilir, ziyaret öncesi güncel bilgi alınması önerilir.
+
+== YANIT KURALLARI ==
+- Yalnızca yukarıdaki bilgilere dayan. Bilmediğin bir şey sorulursa "Bunu doğrulayamıyorum, lütfen resmi kaynakları kontrol edin" de.
+- Teknik terimleri turistlere anlaşılır şekilde açıkla.
+- Kaleyi heyecanlandırıcı ve ilgi çekici bir dille anlat.
+- Yanıt sonunda konuyla bağlantılı bir takip sorusu sor.
+- Yanıtları 3-6 cümle uzunluğunda tut; çok uzun liste yazmaktan kaçın.`;
+
+// ═══════════════════════════════════════════════════
+// CHAT STATE
+// ═══════════════════════════════════════════════════
+let history = [];
+let isLoading = false;
+
+// ═══════════════════════════════════════════════════
+// UI HELPERS
+// ═══════════════════════════════════════════════════
+function scrollBottom() {
+  const m = document.getElementById('messages');
+  m.scrollTop = m.scrollHeight;
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 130) + 'px';
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+function appendUserBubble(text) {
+  const div = document.createElement('div');
+  div.className = 'user-row';
+  div.innerHTML = `<div class="user-bubble">${escHtml(text)}</div>`;
+  document.getElementById('messages').appendChild(div);
+  scrollBottom();
+}
+
+function appendTyping() {
+  const div = document.createElement('div');
+  div.className = 'typing-row';
+  div.id = 'typing';
+  div.innerHTML = `
+    <div class="avatar">🏹</div>
+    <div class="typing-dots">
+      <span></span><span></span><span></span>
+    </div>`;
+  document.getElementById('messages').appendChild(div);
+  scrollBottom();
+  return div;
+}
+
+function removeTyping() {
+  const t = document.getElementById('typing');
+  if (t) t.remove();
+}
+
+function appendBotBubble(text, isError = false) {
+  const div = document.createElement('div');
+  div.className = 'bot-row';
+  div.innerHTML = `
+    <div class="avatar">🏹</div>
+    <div>
+      <div class="bot-name">AYDOS — Dijital Rehber</div>
+      <div class="msg-bubble ${isError ? 'error-bubble' : ''}">${formatText(text)}</div>
+    </div>`;
+  document.getElementById('messages').appendChild(div);
+  // Cevabın ilk cümlesinden (başından) görünsün
+  div.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function formatText(text) {
+  // Bold
+  text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  // Italic
+  text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+  // Bullet lists
+  const lines = text.split('\n');
+  let inList = false;
+  let out = '';
+  for (let line of lines) {
+    const trimmed = line.trim();
+    if (trimmed.startsWith('- ') || trimmed.startsWith('• ')) {
+      if (!inList) { out += '<ul>'; inList = true; }
+      out += `<li>${trimmed.slice(2)}</li>`;
+    } else {
+      if (inList) { out += '</ul>'; inList = false; }
+      if (trimmed) out += `<p>${trimmed}</p>`;
+    }
+  }
+  if (inList) out += '</ul>';
+  return out || `<p>${text}</p>`;
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ═══════════════════════════════════════════════════
+// SEND LOGIC
+// ═══════════════════════════════════════════════════
+async function sendMessage() {
+  const input = document.getElementById('user-input');
+  const text = input.value.trim();
+  if (!text || isLoading) return;
+
+  // Hide suggestions after first message
+  document.getElementById('suggestions').style.display = 'none';
+
+  isLoading = true;
+  document.getElementById('send-btn').disabled = true;
+  input.value = '';
+  input.style.height = 'auto';
+
+  appendUserBubble(text);
+  history.push({ role: 'user', content: text });
+
+  const typingEl = appendTyping();
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM_PROMPT,
+        messages: history
+      })
+    });
+
+    const data = await response.json();
+    removeTyping();
+
+    if (!response.ok) {
+      appendBotBubble('Bağlantı hatası oluştu. Lütfen tekrar deneyin.', true);
+      history.pop();
+    } else {
+      const reply = data.content
+        .filter(b => b.type === 'text')
+        .map(b => b.text)
+        .join('\n');
+      history.push({ role: 'assistant', content: reply });
+      appendBotBubble(reply);
+    }
+  } catch (err) {
+    removeTyping();
+    appendBotBubble('Bir hata oluştu. İnternet bağlantınızı kontrol edip tekrar deneyin.', true);
+    history.pop();
+  }
+
+  isLoading = false;
+  document.getElementById('send-btn').disabled = false;
+  input.focus();
+}
+
+function sendSuggestion(text) {
+  document.getElementById('user-input').value = text;
+  sendMessage();
+}
+</script>
+</body>
+</html>
